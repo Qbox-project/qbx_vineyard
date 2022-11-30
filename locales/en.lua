@@ -2,11 +2,11 @@ local Translations = {
     error = {
         ["invalid_job"] = "I dont think I work here...",
         ["invalid_items"] = "You do not have the correct items!",
-        ["no_items"] = "You do not have any items!",
+        ["no_items"] = "You do not have any items!"
     },
     progress = {
         ["pick_grapes"] = "Picking Grapes ..",
-        ["process_grapes"] = "Processing Grapes ..",
+        ["process_grapes"] = "Processing Grapes .."
     },
     task = {
         ["start_task"] = "[E] To Start",
@@ -23,7 +23,11 @@ local Translations = {
         ["valid_zone"] = "Valid Zone!",
         ["invalid_zone"] = "Invalid Zone!",
         ["zone_entered"] = "%{zone} Zone Entered",
-        ["zone_exited"] = "%{zone} Zone Exited",
+        ["zone_exited"] = "%{zone} Zone Exited"
     }
 }
-Lang = Locale:new({phrases = Translations, warnOnMissing = true})
+
+Lang = Locale:new({
+    phrases = Translations,
+    warnOnMissing = true
+})
