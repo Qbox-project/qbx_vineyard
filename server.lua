@@ -20,17 +20,26 @@ QBCore.Functions.CreateCallback('qb-vineyard:server:loadIngredients', function(s
 
                 cb(true)
             else
-                TriggerClientEvent('QBCore:Notify', source, Lang:t("error.invalid_items"), 'error')
+                TriggerClientEvent('ox_lib:notify', source, {
+                    description = Lang:t("error.invalid_items"),
+                    type = 'error'
+                })
 
                 cb(false)
             end
         else
-            TriggerClientEvent('QBCore:Notify', source, Lang:t("error.invalid_items"), 'error')
+            TriggerClientEvent('ox_lib:notify', source, {
+                description = Lang:t("error.invalid_items"),
+                type = 'error'
+            })
 
             cb(false)
         end
 	else
-		TriggerClientEvent('QBCore:Notify', source, Lang:t("error.no_items"), "error")
+        TriggerClientEvent('ox_lib:notify', source, {
+            description = Lang:t("error.no_items"),
+            type = 'error'
+        })
 
         cb(false)
 	end
@@ -48,17 +57,26 @@ QBCore.Functions.CreateCallback('qb-vineyard:server:grapeJuice', function(source
 
                 cb(true)
             else
-                TriggerClientEvent('QBCore:Notify', source, Lang:t("error.invalid_items"), 'error')
+                TriggerClientEvent('ox_lib:notify', source, {
+                    description = Lang:t("error.invalid_items"),
+                    type = 'error'
+                })
 
                 cb(false)
             end
         else
-            TriggerClientEvent('QBCore:Notify', source, Lang:t("error.invalid_items"), 'error')
+            TriggerClientEvent('ox_lib:notify', source, {
+                description = Lang:t("error.invalid_items"),
+                type = 'error'
+            })
 
             cb(false)
         end
 	else
-		TriggerClientEvent('QBCore:Notify', source, Lang:t("error.no_items"), "error")
+        TriggerClientEvent('ox_lib:notify', source, {
+            description = Lang:t("error.no_items"),
+            type = 'error'
+        })
 
         cb(false)
 	end
@@ -67,11 +85,13 @@ end)
 RegisterNetEvent('qb-vineyard:server:receiveWine', function()
 	local Player = QBCore.Functions.GetPlayer(tonumber(source))
     local amount = math.random(Config.WineAmount.min, Config.WineAmount.max)
+
 	Player.Functions.AddItem("wine", amount, false)
 end)
 
 RegisterNetEvent('qb-vineyard:server:receiveGrapeJuice', function()
 	local Player = QBCore.Functions.GetPlayer(tonumber(source))
     local amount = math.random(Config.GrapeJuiceAmount.min, Config.GrapeJuiceAmount.max)
+
 	Player.Functions.AddItem("grapejuice", amount, false)
 end)

@@ -103,12 +103,17 @@ local function DeleteBlip()
 end
 
 local function pickProcess()
-    QBCore.Functions.Progressbar("pick_grape", Lang:t("progress.pick_grapes"), math.random(6000,8000), false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = math.random(6000, 8000),
+        label = Lang:t("progress.pick_grapes"),
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = true,
+            car = true,
+            combat = true
+        }
+    }) then
         tasking = false
 
         TriggerServerEvent("qb-vineyard:server:getGrapes")
@@ -116,14 +121,14 @@ local function pickProcess()
         DeleteBlip()
 
         ClearPedTasks(cache.ped)
-    end, function() -- Cancel
+    else
         ClearPedTasks(cache.ped)
 
         lib.notify({
             description = Lang:t("task.cancel_task"),
             type = 'error'
         })
-    end)
+    end
 end
 
 local function PickAnim()
@@ -214,23 +219,28 @@ local function PrepareAnim()
 end
 
 local function grapeJuiceProcess()
-    QBCore.Functions.Progressbar("grape_juice", Lang:t("progress.process_grapes"), math.random(15000, 20000), false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = math.random(15000, 20000),
+        label = Lang:t("progress.process_grapes"),
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = true,
+            car = true,
+            combat = true
+        }
+    }) then
         TriggerServerEvent("qb-vineyard:server:receiveGrapeJuice")
 
         ClearPedTasks(cache.ped)
-    end, function() -- Cancel
+    else
         ClearPedTasks(cache.ped)
 
         lib.notify({
             description = Lang:t("task.cancel_task"),
             type = 'error'
         })
-    end)
+    end
 end
 
 Zones[1] = {
