@@ -1,20 +1,11 @@
 Config = {
-	Debug = false,
+	Debug = true,
 	PickAmount = {min = 8, max = 12},
 	GrapeAmount = {min = 8, max = 12},
 	GrapeJuiceAmount = {min = 6, max = 10},
 	WineAmount = {min = 6, max = 10},
 	wineTimer = 180,
 	Vineyard = {
-		start ={
-			coords = vec3(-1928.81, 2059.53, 140.84),
-			zones = {
-				vec3(-1926.19, 2059.13, 141.84),
-				vec3(-1925.46, 2062.16, 141.84),
-				vec3(-1930.47, 2063.81, 141.84),
-				vec3(-1931.35, 2060.37, 141.84),
-			},
-		},
 		wine ={
 			coords = vec3(-1879.54, 2062.55, 135.92),
 			zones = {

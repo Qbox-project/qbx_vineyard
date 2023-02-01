@@ -6,38 +6,36 @@ RegisterNetEvent('qb-vineyard:server:getGrapes', function()
     Player.Functions.AddItem("grape", amount)
 end)
 
-QBCore.Functions.CreateCallback('qb-vineyard:server:loadIngredients', function(source, cb)
+lib.callback.register('qb-vineyard:server:loadIngredients', function(source)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
-    local grape = Player.Functions.GetItemByName('grapejuice')
+    local grape = exports.ox_inventory:GetItem(src, 'grapejuice', nil, true)
 	if not Player.PlayerData.items then
         TriggerClientEvent('ox_lib:notify', source, {type = 'error', description = Lang:t("error.no_items")})
-        cb(false)
-        return
+        return false
     end
-    if not grape or grape.amount < 23 then
+    if grape < 23 then
         TriggerClientEvent('ox_lib:notify', source, {type = 'error', description = Lang:t("error.invalid_items")})
-        cb(false)
-        return
+        return false
     end
     Player.Functions.RemoveItem("grapejuice", 23, false)
-    cb(true)
+    return true
 end)
 
-QBCore.Functions.CreateCallback('qb-vineyard:server:grapeJuice', function(source, cb)
+lib.callback.register('qb-vineyard:server:grapeJuice', function(source)
 	local src = source
 	local Player = QBCore.Functions.GetPlayer(src)
-    local grape = Player.Functions.GetItemByName('grape')
+    local grape = exports.ox_inventory:GetItem(src, 'grape', nil, true)
 	if not Player.PlayerData.items then
         TriggerClientEvent('ox_lib:notify', source, {type = 'error', description = Lang:t("error.no_items")})
-        cb(false)
+        return false
     end
-    if not grape or grape.amount < 16 then
+    if not grape or grape < 16 then
         TriggerClientEvent('ox_lib:notify', source, {type = 'error', description = Lang:t("error.invalid_items")})
-        cb(false)
+        return false
     end
     Player.Functions.RemoveItem("grape", 16, false)
-    cb(true)
+    return true
 end)
 
 RegisterNetEvent('qb-vineyard:server:receiveWine', function()
