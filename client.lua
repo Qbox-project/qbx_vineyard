@@ -1,5 +1,3 @@
-local QBCore = exports['qb-core']:GetCoreObject()
-
 local grapeZones = {}
 local blip = 0
 local winetimer = Config.wineTimer
