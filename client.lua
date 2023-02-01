@@ -1,4 +1,3 @@
-local grapeZones = {}
 local blip = 0
 local winetimer = Config.wineTimer
 local grapeLocations = Config.grapeLocations
@@ -140,7 +139,7 @@ local function juiceWork()
 	return true
 end
 
-WineZones = lib.zones.poly({
+lib.zones.poly({
 	points = Config.Vineyard.wine.zones,
 	thickness = 2,
 	debug = Config.Debug,
@@ -149,7 +148,7 @@ WineZones = lib.zones.poly({
 	inside = workWine
 })
 
-JuiceZones = lib.zones.poly({
+lib.zones.poly({
 	points = Config.Vineyard.grapejuice.zones,
 	thickness = 2,
 	debug = Config.Debug,
@@ -158,8 +157,8 @@ JuiceZones = lib.zones.poly({
 	inside = juiceWork
 })
 
-for i, coords in pairs(grapeLocations) do
-	grapeZones[i] = lib.zones.box({
+for _, coords in pairs(grapeLocations) do
+	lib.zones.box({
 		coords = coords,
 		size = vec3(1, 1, 1),
 		rotation = 40,
