@@ -1,5 +1,5 @@
 Config = {
-	Debug = true,
+	Debug = false,
 	PickAmount = {min = 8, max = 12},
 	GrapeAmount = {min = 8, max = 12},
 	GrapeJuiceAmount = {min = 6, max = 10},
