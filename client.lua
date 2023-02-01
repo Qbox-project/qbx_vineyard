@@ -123,7 +123,7 @@ local function workWine()
 	end
 
 	lib.showTextUI(Lang:t("task.load_ingrediants"), {position = 'right'})
-	if IsControlJustReleased(0, 38) and not LocalPlayer.state.invBusy then
+	if IsControlJustReleased(0, 38) then
 		lib.callback('qb-vineyard:server:loadIngredients', false, function(result)
 			if result then loadIngredients = true end
 		end)
