@@ -26,7 +26,7 @@ lib.callback.register('qb-vineyard:server:grapeJuice', function(source)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local grape = exports.ox_inventory:GetItem(src, 'grape', nil, true)
-	if not Player.PlayerData.items then
+    if not Player.PlayerData.items then
         TriggerClientEvent('ox_lib:notify', source, {type = 'error', description = Lang:t("error.no_items")})
         return false
     end
