@@ -31,7 +31,6 @@ end
 
 ---@param item string Item to be added to player inventory
 ---@param amount integer Amount of item to be added to inventory
----@return nil
 local function addItem(item, amount)
     if onCooldown(20) then return end
     local player = QBCore.Functions.GetPlayer(source)
