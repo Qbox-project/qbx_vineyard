@@ -34,7 +34,7 @@ end
 ---@return nil
 local function addItem(item, amount)
     if onCooldown(20) then return end
-    local Player = QBCore.Functions.GetPlayer(source)
+    local player = QBCore.Functions.GetPlayer(source)
     Player.Functions.AddItem(item, amount)
 end
 
