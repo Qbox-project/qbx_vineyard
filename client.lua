@@ -130,7 +130,7 @@ local function workWine()
 end
 
 local function juiceWork()
-	if IsControlJustReleased(0, 38) and not LocalPlayer.state.invBusy then
+	if IsControlJustReleased(0, 38) then
 		lib.callback('qb-vineyard:server:grapeJuice', false, function(result)
 			if result then PrepareAnim() grapeJuiceProcess() end
 		end)
