@@ -11,49 +11,46 @@ local function DeleteBlip()
 end
 
 local function pickProcess()
-	if lib.progressCircle({label = Lang:t("progress.pick_grapes"), duration = math.random(6000,8000), canCancel = true, disable = {
-		disableMovement = true,
-		disableCarMovement = true,
-		disableMouse = false,
-		disableCombat = true,
-	},}
-	) then
+	if lib.progressCircle({
+		duration = math.random(6000, 8000),
+		label = Lang:t('progress.pick_grapes'),
+		useWhileDead = false,
+		canCancel = true,
+		disable = {
+			move = true,
+			car = true,
+			mouse = false,
+			combat = true
+		}
+	}) then
 		tasking = false
         TriggerServerEvent("qb-vineyard:server:getGrapes")
 		DeleteBlip()
 	else
-		lib.notify({description= {Lang:t("task.cancel_task")}, type = "error"})
+		QBCore.Functions.Notify(Lang:t('task.cancel_task'), 'error')
 	end
 	ClearPedTasks(cache.ped)
 end
 
-local function LoadAnim(dict)
-    while not HasAnimDictLoaded(dict) do
-        RequestAnimDict(dict)
-        Wait(1)
-    end
-end
-
 local function PickAnim()
-    local ped = cache.ped
-    LoadAnim('amb@prop_human_bum_bin@idle_a')
-    TaskPlayAnim(ped, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
+    lib.requestAnimDict('amb@prop_human_bum_bin@idle_a')
+    TaskPlayAnim(cache.ped, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
 end
 
 local function exitZone()
 	if not Config.Debug then return end
-	lib.notify({description = "Zone Exited", type = "inform"})
+	QBCore.Functions.Notify('Zone Exited', 'primary')
 	lib.hideTextUI()
 end
 
 local function enterZone()
 	if not Config.Debug then return end
-	lib.notify({description = "Zone Entered", type = "inform"})
+	QBCore.Functions.Notify('Zone Entered', 'primary')
 end
 
 local function toPickGrapes()
 	lib.showTextUI(Lang:t("task.start_task"), {position = 'right'})
-	if not IsPedInAnyVehicle(cache.ped) and IsControlJustReleased(0,38) then
+	if not IsPedInAnyVehicle(cache.ped) and IsControlJustReleased(0, 38) then
 		PickAnim()
 		pickProcess()
 		lib.hideTextUI()
@@ -77,21 +74,26 @@ end
 
 
 local function PrepareAnim()
-    local ped = cache.ped
-    LoadAnim('amb@code_human_wander_rain@male_a@base')
-    TaskPlayAnim(ped, 'amb@code_human_wander_rain@male_a@base', 'static', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
+    lib.requestAnimDict('amb@code_human_wander_rain@male_a@base')
+    TaskPlayAnim(cache.ped, 'amb@code_human_wander_rain@male_a@base', 'static', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
 end
 
 local function grapeJuiceProcess()
-	if lib.progressCircle({label = Lang:t("progress.process_grapes"), duration = math.random(15000,20000), canCancel = true, disable = {
-		disableMovement = true,
-		disableCarMovement = true,
-		disableMouse = false,
-		disableCombat = true,
-	},}) then
+	if lib.progressCircle({
+		duration = math.random(15000, 20000),
+		label = Lang:t('progress.process_grapes'),
+		useWhileDead = false,
+		canCancel = true,
+		disable = {
+			move = true,
+			car = true,
+			mouse = false,
+			combat = true
+		}
+	}) then
 		TriggerServerEvent("qb-vineyard:server:receiveGrapeJuice")
 	else
-		lib.notify({description= {Lang:t("task.cancel_task")}, type = "error"})
+		QBCore.Functions.Notify(Lang:t('task.cancel_task'), 'error')
 	end
 	ClearPedTasks(cache.ped)
 end
@@ -116,7 +118,7 @@ local function workWine()
 			TriggerServerEvent("qb-vineyard:server:receiveWine")
 			finishedWine = false
 			loadIngredients = false
-			wineStarted = false
+		    wineStarted = false
 		end
 		return
 	end
@@ -132,7 +134,10 @@ end
 local function juiceWork()
 	if IsControlJustReleased(0, 38) then
 		lib.callback('qb-vineyard:server:grapeJuice', false, function(result)
-			if result then PrepareAnim() grapeJuiceProcess() end
+			if result then
+                PrepareAnim()
+                grapeJuiceProcess()
+            end
 		end)
 		return false
 	end

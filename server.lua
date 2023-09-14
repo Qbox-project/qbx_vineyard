@@ -9,11 +9,11 @@ local function loadIngredients(item, requirement)
 	local Player = QBCore.Functions.GetPlayer(src)
     local itemCount = exports.ox_inventory:GetItem(src, item, nil, true)
 	if not Player.PlayerData.items then
-        TriggerClientEvent('ox_lib:notify', source, {type = 'error', description = Lang:t("error.no_items")})
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_items'), 'error')
         return false
     end
     if itemCount < requirement then
-        TriggerClientEvent('ox_lib:notify', source, {type = 'error', description = Lang:t("error.invalid_items")})
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.invalid_items'), 'error')
         return false
     end
     Player.Functions.RemoveItem(item, requirement, false)
