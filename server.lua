@@ -33,7 +33,7 @@ end
 ---@param amount integer Amount of item to be added to inventory
 local function addItem(item, amount)
     if onCooldown(20) then return end
-    local player = QBCore.Functions.GetPlayer(source)
+    local Player = QBCore.Functions.GetPlayer(source)
     Player.Functions.AddItem(item, amount)
 end
 
