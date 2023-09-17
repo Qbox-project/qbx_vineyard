@@ -1,4 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local picked = {}
 
 ---@param item string The item that is required by the recipe

@@ -5,7 +5,7 @@ local loadIngredients = false
 local wineStarted = false
 local finishedWine = false
 
-local function DeleteBlip()
+local function deleteBlip()
 	if not DoesBlipExist(blip) then return end
 	RemoveBlip(blip)
 end
@@ -25,14 +25,14 @@ local function pickProcess()
 	}) then
 		tasking = false
         TriggerServerEvent("qb-vineyard:server:getGrapes")
-		DeleteBlip()
+		deleteBlip()
 	else
 		QBCore.Functions.Notify(Lang:t('task.cancel_task'), 'error')
 	end
 	ClearPedTasks(cache.ped)
 end
 
-local function PickAnim()
+local function pickAnim()
     lib.requestAnimDict('amb@prop_human_bum_bin@idle_a')
     TaskPlayAnim(cache.ped, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
 end
@@ -51,14 +51,14 @@ end
 local function toPickGrapes()
 	lib.showTextUI(Lang:t("task.start_task"), {position = 'right'})
 	if not IsPedInAnyVehicle(cache.ped) and IsControlJustReleased(0, 38) then
-		PickAnim()
+		pickAnim()
 		pickProcess()
 		lib.hideTextUI()
 		random = 0
 	end
 end
 
-local function StartWineProcess()
+local function startWineProcess()
     CreateThread(function()
         wineStarted = true
         while winetimer > 0 do
@@ -73,7 +73,7 @@ local function StartWineProcess()
 end
 
 
-local function PrepareAnim()
+local function prepareAnim()
     lib.requestAnimDict('amb@code_human_wander_rain@male_a@base')
     TaskPlayAnim(cache.ped, 'amb@code_human_wander_rain@male_a@base', 'static', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
 end
@@ -107,7 +107,7 @@ local function workWine()
 	if loadIngredients then
 		lib.showTextUI(Lang:t("task.process_wine"), {position = 'right'})
 		if IsControlJustReleased(0, 38) and not LocalPlayer.state.invBusy then
-			StartWineProcess()
+			startWineProcess()
 		end
 		return
 	end
@@ -135,7 +135,7 @@ local function juiceWork()
 	if IsControlJustReleased(0, 38) then
 		lib.callback('qb-vineyard:server:grapeJuice', false, function(result)
 			if result then
-                PrepareAnim()
+                prepareAnim()
                 grapeJuiceProcess()
             end
 		end)

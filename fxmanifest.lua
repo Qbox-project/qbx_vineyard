@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'QB-Vineyard'
+description 'https://github.com/Qbox-project/qbx-vineyard'
 version '1.1.0'
 
 shared_scripts {
@@ -11,14 +11,16 @@ shared_scripts {
     'config.lua'
 }
 
-server_script 'server.lua'
+server_scripts {
+    'server.lua'
+}
+
 client_scripts {
     'client.lua'
 }
 
-dependencies {
-    'ox_lib',
-    'qb-core'
+modules {
+	'qbx-core:core',
 }
 
 lua54 'yes'
