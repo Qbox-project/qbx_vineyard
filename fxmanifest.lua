@@ -5,6 +5,7 @@ description 'https://github.com/Qbox-project/qbx-vineyard'
 version '1.1.0'
 
 shared_scripts {
+    '@qbx-core/import.lua',
     '@ox_lib/init.lua',
     '@qb-core/shared/locale.lua',
     'locales/en.lua',
