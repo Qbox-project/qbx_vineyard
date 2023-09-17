@@ -32,17 +32,9 @@ local function pickProcess()
 	ClearPedTasks(cache.ped)
 end
 
-local function LoadAnim(dict)
-    while not HasAnimDictLoaded(dict) do
-        RequestAnimDict(dict)
-        Wait(1)
-    end
-end
-
-local function PickAnim()
-    local ped = cache.ped
-    LoadAnim('amb@prop_human_bum_bin@idle_a')
-    TaskPlayAnim(ped, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
+local function pickAnim()
+    lib.requestAnimDict('amb@prop_human_bum_bin@idle_a')
+    TaskPlayAnim(cache.ped, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
 end
 
 local function exitZone()
@@ -58,8 +50,8 @@ end
 
 local function toPickGrapes()
 	lib.showTextUI(Lang:t("task.start_task"), {position = 'right'})
-	if not IsPedInAnyVehicle(cache.ped) and IsControlJustReleased(0,38) then
-		PickAnim()
+	if not IsPedInAnyVehicle(cache.ped) and IsControlJustReleased(0, 38) then
+		pickAnim()
 		pickProcess()
 		lib.hideTextUI()
 		random = 0
@@ -81,10 +73,9 @@ local function startWineProcess()
 end
 
 
-local function PrepareAnim()
-    local ped = cache.ped
-    LoadAnim('amb@code_human_wander_rain@male_a@base')
-    TaskPlayAnim(ped, 'amb@code_human_wander_rain@male_a@base', 'static', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
+local function prepareAnim()
+    lib.requestAnimDict('amb@code_human_wander_rain@male_a@base')
+    TaskPlayAnim(cache.ped, 'amb@code_human_wander_rain@male_a@base', 'static', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
 end
 
 local function grapeJuiceProcess()
@@ -143,7 +134,10 @@ end
 local function juiceWork()
 	if IsControlJustReleased(0, 38) then
 		lib.callback('qb-vineyard:server:grapeJuice', false, function(result)
-			if result then PrepareAnim() grapeJuiceProcess() end
+			if result then
+                prepareAnim()
+                grapeJuiceProcess()
+            end
 		end)
 		return false
 	end
