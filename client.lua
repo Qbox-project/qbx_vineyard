@@ -27,7 +27,7 @@ local function pickProcess()
         TriggerServerEvent("qb-vineyard:server:getGrapes")
 		deleteBlip()
 	else
-		QBCore.Functions.Notify(Lang:t('task.cancel_task'), 'error')
+		exports.qbx_core:Notify(Lang:t('task.cancel_task'), 'error')
 	end
 	ClearPedTasks(cache.ped)
 end
@@ -39,13 +39,13 @@ end
 
 local function exitZone()
 	if not Config.Debug then return end
-	QBCore.Functions.Notify('Zone Exited', 'primary')
+	exports.qbx_core:Notify('Zone Exited', 'inform')
 	lib.hideTextUI()
 end
 
 local function enterZone()
 	if not Config.Debug then return end
-	QBCore.Functions.Notify('Zone Entered', 'primary')
+	exports.qbx_core:Notify('Zone Entered', 'inform')
 end
 
 local function toPickGrapes()
@@ -93,7 +93,7 @@ local function grapeJuiceProcess()
 	}) then
 		TriggerServerEvent("qb-vineyard:server:receiveGrapeJuice")
 	else
-		QBCore.Functions.Notify(Lang:t('task.cancel_task'), 'error')
+		exports.qbx_core:Notify(Lang:t('task.cancel_task'), 'error')
 	end
 	ClearPedTasks(cache.ped)
 end

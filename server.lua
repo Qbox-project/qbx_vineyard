@@ -5,14 +5,14 @@ local picked = {}
 ---@return boolean callback The value sent back to the client
 local function loadIngredients(item, requirement)
     local src = source
-	local player = QBCore.Functions.GetPlayer(src)
+	local player = exports.qbx_core:GetPlayer(src)
     local itemCount = exports.ox_inventory:GetItem(src, item, nil, true)
 	if not player.PlayerData.items then
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_items'), 'error')
+        exports.qbx_core:Notify(src, Lang:t('error.no_items'), 'error')
         return false
     end
     if itemCount < requirement then
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.invalid_items'), 'error')
+        exports.qbx_core:Notify(src, Lang:t('error.invalid_items'), 'error')
         return false
     end
     player.Functions.RemoveItem(item, requirement, false)
@@ -32,7 +32,7 @@ end
 ---@param amount integer Amount of item to be added to inventory
 local function addItem(item, amount)
     if onCooldown(20) then return end
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = exports.qbx_core:GetPlayer(source)
     player.Functions.AddItem(item, amount)
 end
 
