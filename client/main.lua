@@ -1,6 +1,7 @@
+local config = require 'config.client'
 local blip = 0
-local winetimer = Config.wineTimer
-local grapeLocations = Config.grapeLocations
+local winetimer = config.wineTimer
+local grapeLocations = config.grapeLocations
 local loadIngredients = false
 local wineStarted = false
 local finishedWine = false
@@ -38,13 +39,13 @@ local function pickAnim()
 end
 
 local function exitZone()
-	if not Config.Debug then return end
+	if not config.debugPoly then return end
 	exports.qbx_core:Notify('Zone Exited', 'inform')
 	lib.hideTextUI()
 end
 
 local function enterZone()
-	if not Config.Debug then return end
+	if not config.debugPoly then return end
 	exports.qbx_core:Notify('Zone Entered', 'inform')
 end
 
@@ -68,7 +69,7 @@ local function startWineProcess()
 		wineStarted = false
 		loadIngredients = false
 		finishedWine = true
-		winetimer = Config.wineTimer
+		winetimer = config.wineTimer
     end)
 end
 
@@ -145,18 +146,18 @@ local function juiceWork()
 end
 
 lib.zones.poly({
-	points = Config.Vineyard.wine.zones,
+	points = config.locations.wine.zones,
 	thickness = 2,
-	debug = Config.Debug,
+	debug = config.debugPoly,
 	onExit = exitZone,
 	onEnter = enterZone,
 	inside = workWine
 })
 
 lib.zones.poly({
-	points = Config.Vineyard.grapejuice.zones,
+	points = config.locations.grapejuice.zones,
 	thickness = 2,
-	debug = Config.Debug,
+	debug = config.debugPoly,
 	onExit = exitZone,
 	onEnter = enterZone,
 	inside = juiceWork
@@ -167,7 +168,7 @@ for _, coords in pairs(grapeLocations) do
 		coords = coords,
 		size = vec3(1, 1, 1),
 		rotation = 40,
-		debug = Config.Debug,
+		debug = config.debugPoly,
 		onExit = exitZone,
 		onEnter = enterZone,
 		inside = toPickGrapes,

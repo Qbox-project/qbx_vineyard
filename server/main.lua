@@ -1,3 +1,4 @@
+local config = require 'config.server'
 local picked = {}
 
 ---@param item string The item that is required by the recipe
@@ -45,13 +46,13 @@ lib.callback.register('qb-vineyard:server:grapeJuice', function()
 end)
 
 RegisterNetEvent('qb-vineyard:server:getGrapes', function()
-    addItem("grape", math.random(Config.GrapeAmount.min, Config.GrapeAmount.max))
+    addItem("grape", math.random(config.grapeAmount.min, config.grapeAmount.max))
 end)
 
 RegisterNetEvent('qb-vineyard:server:receiveWine', function()
-    addItem("wine", math.random(Config.WineAmount.min, Config.WineAmount.max))
+    addItem("wine", math.random(config.wineAmount.min, config.wineAmount.max))
 end)
 
 RegisterNetEvent('qb-vineyard:server:receiveGrapeJuice', function()
-	addItem("grapejuice", math.random(Config.GrapeJuiceAmount.min, Config.GrapeJuiceAmount.max))
+	addItem("grapejuice", math.random(config.grapeJuiceAmount.min, config.grapeJuiceAmount.max))
 end)

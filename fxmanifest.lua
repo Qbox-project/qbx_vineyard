@@ -10,15 +10,18 @@ shared_scripts {
     '@qbx_core/shared/locale.lua',
     'locales/en.lua',
     'locales/*.lua',
-    'config.lua'
 }
 
 server_scripts {
-    'server.lua'
+    'server/main.lua'
 }
 
 client_scripts {
-    'client.lua'
+    'client/main.lua'
+}
+
+files {
+    'config/client.lua'
 }
 
 lua54 'yes'
