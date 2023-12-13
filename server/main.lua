@@ -1,22 +1,17 @@
 local config = require 'config.server'
+local sharedConfig = require 'config.shared'
 local picked = {}
 
 ---@param item string The item that is required by the recipe
 ---@param requirement integer The amount required by the recipe
 ---@return boolean callback The value sent back to the client
-local function loadIngredients(item, requirement)
+local function checkForItems(item, requirement)
     local src = source
-	local player = exports.qbx_core:GetPlayer(src)
     local itemCount = exports.ox_inventory:GetItem(src, item, nil, true)
-	if not player.PlayerData.items then
-        exports.qbx_core:Notify(src, Lang:t('error.no_items'), 'error')
-        return false
-    end
     if itemCount < requirement then
-        exports.qbx_core:Notify(src, Lang:t('error.invalid_items'), 'error')
         return false
     end
-    player.Functions.RemoveItem(item, requirement, false)
+    exports.ox_inventory:RemoveItem(src, item, requirement)
     return true
 end
 
@@ -33,26 +28,26 @@ end
 ---@param amount integer Amount of item to be added to inventory
 local function addItem(item, amount)
     if onCooldown(20) then return end
-    local player = exports.qbx_core:GetPlayer(source)
-    player.Functions.AddItem(item, amount)
+    local src = source
+    exports.ox_inventory:AddItem(src, item, amount)
 end
 
-lib.callback.register('qb-vineyard:server:loadIngredients', function()
-    return loadIngredients('grapejuice', 23)
+lib.callback.register('qbx_vineyard:server:grapeJuicesNeeded', function()
+    return checkForItems('grapejuice', sharedConfig.grapeJuicesNeeded)
 end)
 
-lib.callback.register('qb-vineyard:server:grapeJuice', function()
-    return loadIngredients('grape', 16)
+lib.callback.register('qbx_vineyard:server:grapesNeeded', function()
+    return checkForItems('grape', sharedConfig.grapesNeeded)
 end)
 
-RegisterNetEvent('qb-vineyard:server:getGrapes', function()
+RegisterNetEvent('qbx_vineyard:server:getGrapes', function()
     addItem("grape", math.random(config.grapeAmount.min, config.grapeAmount.max))
 end)
 
-RegisterNetEvent('qb-vineyard:server:receiveWine', function()
+RegisterNetEvent('qbx_vineyard:server:receiveWine', function()
     addItem("wine", math.random(config.wineAmount.min, config.wineAmount.max))
 end)
 
-RegisterNetEvent('qb-vineyard:server:receiveGrapeJuice', function()
-	addItem("grapejuice", math.random(config.grapeJuiceAmount.min, config.grapeJuiceAmount.max))
+RegisterNetEvent('qbx_vineyard:server:receiveGrapeJuice', function()
+    addItem("grapejuice", math.random(config.grapeJuiceAmount.min, config.grapeJuiceAmount.max))
 end)

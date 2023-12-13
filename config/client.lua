@@ -1,25 +1,16 @@
 return {
     debugPoly = false,
-    wineTimer = 180,
+    useBlips = true,
     locations = {
-        wine = {
-            coords = vec3(-1879.54, 2062.55, 135.92),
-            zones = {
-                vec3(-1873.85, 2063.01, 135.92),
-                vec3(-1876.35, 2059.48, 135.92),
-                vec3(-1883.02, 2062.11, 135.92),
-                vec3(-1882.03, 2064.85, 135.92),
-                vec3(-1880.51, 2065.44, 135.92)
-            },
+        vineyard = {
+            coords = vec3(-1877.35, 2132.57, 127.93),
+            blipName = 'Vineyard',
+            blipIcon = 827,
         },
-        grapejuice = {
-            coords = vec3(828.76, 2191.16, 52.37),
-            zones = {
-                vec3(830.91, 2194.49, 52.37),
-                vec3(827.81, 2196.07, 52.37),
-                vec3(824.6, 2189.71, 52.37),
-                vec3(827.54, 2188.28, 52.37),
-            },
+        vineyardProcessing = {
+            coords = vec3(-1928.8, 2059.75, 141.0),
+            blipName = 'Vineyard Processing',
+            blipIcon = 270
         }
     },
     grapeLocations = {
