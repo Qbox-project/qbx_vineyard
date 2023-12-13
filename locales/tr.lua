@@ -1,29 +1,23 @@
 local Translations = {
     error = {
-        invalid_job = 'Burada çalıştığımı sanmıyorum...',
         invalid_items = 'Doğru itemlere sahip değilsin!',
-        no_items = 'Herhangi bir iteminiz yok!',
     },
     progress = {
         pick_grapes = 'Üzüm toplanıyor ..',
-        process_grapes = 'Üzüm İşleniyor ..',
+        process_wine = 'Processing Wine',
+        process_juice = 'Processing Grape Juice'
     },
     task = {
         start_task = '[E] Başla',
-        load_ingrediants = '[E] Malzemeleri Yükle',
-        wine_process = '[E] Şarap İşlemeye Başla',
-        get_wine = '[E] Şarap Al',
-        make_grape_juice = '[E] Üzüm Suyu Yap',
-        countdown = 'Kalan süre %{time}s',
+        vineyard_processing = '[E] Vineyard Processing',
         cancel_task = 'Görevi iptal ettiniz'
     },
-    text = {
-        start_shift = 'Bağda mesaiye başladın!',
-        end_shift = 'Bağdaki vardiyanız sona erdi!',
-        valid_zone = 'Geçerli Bölge!',
-        invalid_zone = 'Geçersiz Bölge!',
-        zone_entered = '%{zone} Bölgesine Girildi',
-        zone_exited = '%{zone} Bölgesinden Çıkıldı',
+    menu = {
+        title = 'Vineyard Processing',
+        process_wine_title = 'Process Wine',
+        process_juice_title = 'Process Grape Juice',
+        wine_items_needed = 'Required Item: Grape Juice\nAmount Needed: %{amount}',
+        juice_items_needed = 'Required Item: Grape\nAmount Needed: %{amount}'
     }
 }
 

@@ -1,29 +1,23 @@
 local Translations = {
     error = {
-        invalid_job = 'Non penso di lavorare qui...',
         invalid_items = 'Non hai gli oggetti corretti!',
-        no_items = 'Non hai nessun oggetto!',
     },
     progress = {
         pick_grapes = 'Raccogliendo l\'uva ..',
-        process_grapes = 'Lavorando l\'uva ..',
+        process_wine = 'Processing Wine',
+        process_juice = 'Processing Grape Juice'
     },
     task = {
         start_task = '[E] Per Cominciare',
-        load_ingrediants = '[E] Inserisci Ingredienti',
-        wine_process = '[E] Avvia lavorazione vino',
-        get_wine = '[E] Prendi il vino',
-        make_grape_juice = '[E] Fai succo d\'uva',
-        countdown = 'Tempo rimasto %{time}s',
+        vineyard_processing = '[E] Vineyard Processing',
         cancel_task = 'Hai cancellato il compito'
     },
-    text = {
-        start_shift = 'You have started your shift at the vineyard!',
-        end_shift = 'Your shift at the vineyard has ended!',
-        valid_zone = 'Valid Zone!',
-        invalid_zone = 'Invalid Zone!',
-        zone_entered = '%{zone} Zone Entered',
-        zone_exited = '%{zone} Zone Exited',
+    menu = {
+        title = 'Vineyard Processing',
+        process_wine_title = 'Process Wine',
+        process_juice_title = 'Process Grape Juice',
+        wine_items_needed = 'Required Item: Grape Juice\nAmount Needed: %{amount}',
+        juice_items_needed = 'Required Item: Grape\nAmount Needed: %{amount}'
     }
 }
 
