@@ -172,13 +172,15 @@ for _, coords in pairs(config.grapeLocations) do
     })
 end
 
-AddEventHandler('onResourceStart', function(resourceName)
-    if GetCurrentResourceName() ~= resourceName then return end
-    if isLoggedIn and config.useBlips then setLocationsBlip() end
+local function init()
+    if config.useBlips then setLocationsBlip() end
+end
+
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function()
+    init()
 end)
 
-
-AddEventHandler('onResourceStop', function(resourceName)
+AddEventHandler('onResourceStart', function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
-    RemoveBlip(blip)
+    if isLoggedIn then init() end
 end)
