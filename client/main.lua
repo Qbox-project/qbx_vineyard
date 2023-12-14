@@ -3,18 +3,17 @@ local sharedConfig = require 'config.shared'
 local isLoggedIn = LocalPlayer.state.isLoggedIn
 
 local function setLocationsBlip()
-    if config.useBlips then
-        for _, value in pairs(config.locations) do
-            local blip = AddBlipForCoord(value.coords.x, value.coords.y, value.coords.z)
-            SetBlipSprite(blip, value.blipIcon)
-            SetBlipDisplay(blip, 4)
-            SetBlipScale(blip, 0.8)
-            SetBlipAsShortRange(blip, true)
-            SetBlipColour(blip, 83)
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentSubstringPlayerName(value.blipName)
-            EndTextCommandSetBlipName(blip)
-        end
+    if not config.useBlips then return end
+    for _, value in pairs(config.locations) do
+        local blip = AddBlipForCoord(value.coords.x, value.coords.y, value.coords.z)
+        SetBlipSprite(blip, value.blipIcon)
+        SetBlipDisplay(blip, 4)
+        SetBlipScale(blip, 0.8)
+        SetBlipAsShortRange(blip, true)
+        SetBlipColour(blip, 83)
+        BeginTextCommandSetBlipName('STRING')
+        AddTextComponentSubstringPlayerName(value.blipName)
+        EndTextCommandSetBlipName(blip)
     end
 end
 
