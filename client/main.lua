@@ -3,32 +3,34 @@ local sharedConfig = require 'config.shared'
 local isLoggedIn = LocalPlayer.state.isLoggedIn
 
 local function setLocationsBlip()
-    for _, value in pairs(config.locations) do
-        local blip = AddBlipForCoord(value.coords.x, value.coords.y, value.coords.z)
-        SetBlipSprite(blip, value.blipIcon)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale(blip, 0.8)
-        SetBlipAsShortRange(blip, true)
-        SetBlipColour(blip, 83)
-        BeginTextCommandSetBlipName('STRING')
-        AddTextComponentSubstringPlayerName(value.blipName)
-        EndTextCommandSetBlipName(blip)
+    if config.useBlips then
+        for _, value in pairs(config.locations) do
+            local blip = AddBlipForCoord(value.coords.x, value.coords.y, value.coords.z)
+            SetBlipSprite(blip, value.blipIcon)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale(blip, 0.8)
+            SetBlipAsShortRange(blip, true)
+            SetBlipColour(blip, 83)
+            BeginTextCommandSetBlipName('STRING')
+            AddTextComponentSubstringPlayerName(value.blipName)
+            EndTextCommandSetBlipName(blip)
+        end
     end
 end
 
 local function pickProcess()
     if lib.progressCircle({
-            duration = math.random(6000, 8000),
-            label = Lang:t('progress.pick_grapes'),
-            useWhileDead = false,
-            canCancel = true,
-            disable = {
-                move = true,
-                car = true,
-                mouse = false,
-                combat = true
-            }
-        }) then
+        duration = math.random(6000, 8000),
+        label = Lang:t('progress.pick_grapes'),
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = true,
+            car = true,
+            mouse = false,
+            combat = true
+        }
+    }) then
         tasking = false
         TriggerServerEvent("qbx_vineyard:server:getGrapes")
     else
@@ -55,21 +57,21 @@ local function wineProcessing()
         if result then
             loadIngredients = true
             if lib.progressBar({
-                    duration = 5000,
-                    label = Lang:t('progress.process_wine'),
-                    useWhileDead = false,
-                    canCancel = true,
-                    disable = {
-                        car = true,
-                        mouse = true,
-                        move = true,
-                        combat = true,
-                    },
-                    anim = {
-                        dict = 'mp_car_bomb',
-                        clip = 'car_bomb_mechanic'
-                    }
-                }) then
+                duration = 5000,
+                label = Lang:t('progress.process_wine'),
+                useWhileDead = false,
+                canCancel = true,
+                disable = {
+                    car = true,
+                    mouse = true,
+                    move = true,
+                    combat = true,
+                },
+                anim = {
+                    dict = 'mp_car_bomb',
+                    clip = 'car_bomb_mechanic'
+                }
+            }) then
                 TriggerServerEvent('qbx_vineyard:server:receiveWine')
             else
                 exports.qbx_core:Notify(Lang:t('task.cancel_task'), 'error')
@@ -85,21 +87,21 @@ local function juiceProcessing()
         if result then
             loadIngredients = true
             if lib.progressBar({
-                    duration = 5000,
-                    label = Lang:t('progress.process_juice'),
-                    useWhileDead = false,
-                    canCancel = true,
-                    disable = {
-                        car = true,
-                        mouse = true,
-                        move = true,
-                        combat = true,
-                    },
-                    anim = {
-                        dict = 'mp_car_bomb',
-                        clip = 'car_bomb_mechanic'
-                    }
-                }) then
+                duration = 5000,
+                label = Lang:t('progress.process_juice'),
+                useWhileDead = false,
+                canCancel = true,
+                disable = {
+                    car = true,
+                    mouse = true,
+                    move = true,
+                    combat = true,
+                },
+                anim = {
+                    dict = 'mp_car_bomb',
+                    clip = 'car_bomb_mechanic'
+                }
+            }) then
                 TriggerServerEvent('qbx_vineyard:server:receiveGrapeJuice')
             else
                 exports.qbx_core:Notify(Lang:t('task.cancel_task'), 'error')
@@ -173,14 +175,19 @@ for _, coords in pairs(config.grapeLocations) do
 end
 
 local function init()
-    if config.useBlips then setLocationsBlip() end
+    setLocationsBlip()
 end
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate', function()
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    isLoggedIn = true
     init()
 end)
 
-AddEventHandler('onResourceStart', function(resourceName)
-    if GetCurrentResourceName() ~= resourceName then return end
-    if isLoggedIn then init() end
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    isLoggedIn = false
+end)
+
+CreateThread(function()
+    if not isLoggedIn then return end
+    init()
 end)
