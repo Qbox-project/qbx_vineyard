@@ -39,8 +39,7 @@ local function pickProcess()
 end
 
 local function pickAnim()
-    lib.requestAnimDict('amb@prop_human_bum_bin@idle_a')
-    TaskPlayAnim(cache.ped, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
+    lib.playAnim(cache.ped, 'amb@prop_human_bum_bin@idle_a', 'idle_a', 6.0, -6.0, -1, 47, 0, 0, 0, 0)
 end
 
 local function toPickGrapes()
