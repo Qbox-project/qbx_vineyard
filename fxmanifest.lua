@@ -19,7 +19,8 @@ client_scripts {
 
 files {
     'config/client.lua',
-    'config/shared.lua'
+    'config/shared.lua',
+    'locales/*.json'
 }
 
 lua54 'yes'
