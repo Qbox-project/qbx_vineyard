@@ -1,6 +1,9 @@
-# qb-vineyard
-Vineyard Job For QB-Core
+# qbx-vineyard
+
+Vineyard Job For QBOX
+
 ## Dependencies
 
-* [qb-core](https://github.com/qbcore-framework/qb-core)
-* [ox_lib](https://github.com/overextended/ox_lib)
+- [qbx_core](https://github.com/Qbox-project/qbx_core)
+- [ox_lib](https://github.com/communityox/ox_lib)
+- [ox_inventory](https://github.com/communityox/ox_inventory)
