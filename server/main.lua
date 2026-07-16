@@ -1,53 +1,77 @@
 local config = require 'config.server'
+local clientConfig = require 'config.client'
 local sharedConfig = require 'config.shared'
 local picked = {}
+local processing = {}
 
----@param item string The item that is required by the recipe
----@param requirement integer The amount required by the recipe
----@return boolean callback The value sent back to the client
-local function checkForItems(item, requirement)
-    local src = source
-    local itemCount = exports.ox_inventory:GetItem(src, item, nil, true)
-    if itemCount < requirement then
-        return false
-    end
-    exports.ox_inventory:RemoveItem(src, item, requirement)
-    return true
+local function isNear(source, coords, maxDistance)
+    local ped = GetPlayerPed(source)
+    return ped ~= 0 and #(GetEntityCoords(ped) - coords) <= maxDistance
 end
 
----@param limit integer Cooldown for netevents
----@return boolean onCooldown If the player is on cooldown from triggering the event
-local function onCooldown(limit)
-    local time = os.time()
-    if picked[source] and time - picked[source] < limit then return true end
-    picked[source] = time
+local function isNearGrapes(source)
+    for i = 1, #clientConfig.grapeLocations do
+        if isNear(source, clientConfig.grapeLocations[i], 3.0) then return true end
+    end
     return false
 end
 
----@param item string Item to be added to player inventory
----@param amount integer Amount of item to be added to inventory
-local function addItem(item, amount)
-    if onCooldown(20) then return end
-    local src = source
-    exports.ox_inventory:AddItem(src, item, amount)
+local function startProcessing(source, item, requirement, reward)
+    if processing[source] or not isNear(source, clientConfig.locations.vineyardProcessing.coords, 4.0) then return false end
+    if exports.ox_inventory:GetItem(source, item, nil, true) < requirement then return false end
+    if not exports.ox_inventory:RemoveItem(source, item, requirement) then return false end
+
+    processing[source] = {
+        reward = reward,
+        earliestCompletion = GetGameTimer() + 5000,
+        expiresAt = GetGameTimer() + 30000,
+    }
+    return true
 end
 
-lib.callback.register('qbx_vineyard:server:grapeJuicesNeeded', function()
-    return checkForItems('grapejuice', sharedConfig.grapeJuicesNeeded)
+local function finishProcessing(source, reward, amount)
+    local session = processing[source]
+    if not session or session.reward ~= reward then return end
+
+    local now = GetGameTimer()
+    if now < session.earliestCompletion then return end
+    if now > session.expiresAt then
+        processing[source] = nil
+        return
+    end
+    if not isNear(source, clientConfig.locations.vineyardProcessing.coords, 4.0) then return end
+
+    processing[source] = nil
+    exports.ox_inventory:AddItem(source, reward, amount)
+end
+
+lib.callback.register('qbx_vineyard:server:grapeJuicesNeeded', function(source)
+    return startProcessing(source, 'grapejuice', sharedConfig.grapeJuicesNeeded, 'wine')
 end)
 
-lib.callback.register('qbx_vineyard:server:grapesNeeded', function()
-    return checkForItems('grape', sharedConfig.grapesNeeded)
+lib.callback.register('qbx_vineyard:server:grapesNeeded', function(source)
+    return startProcessing(source, 'grape', sharedConfig.grapesNeeded, 'grapejuice')
 end)
 
 RegisterNetEvent('qbx_vineyard:server:getGrapes', function()
-    addItem("grape", math.random(config.grapeAmount.min, config.grapeAmount.max))
+    local src = source
+    local now = GetGameTimer()
+    if picked[src] and now - picked[src] < 6000 then return end
+    if not isNearGrapes(src) then return end
+
+    picked[src] = now
+    exports.ox_inventory:AddItem(src, 'grape', math.random(config.grapeAmount.min, config.grapeAmount.max))
 end)
 
 RegisterNetEvent('qbx_vineyard:server:receiveWine', function()
-    addItem("wine", math.random(config.wineAmount.min, config.wineAmount.max))
+    finishProcessing(source, 'wine', math.random(config.wineAmount.min, config.wineAmount.max))
 end)
 
 RegisterNetEvent('qbx_vineyard:server:receiveGrapeJuice', function()
-    addItem("grapejuice", math.random(config.grapeJuiceAmount.min, config.grapeJuiceAmount.max))
+    finishProcessing(source, 'grapejuice', math.random(config.grapeJuiceAmount.min, config.grapeJuiceAmount.max))
+end)
+
+AddEventHandler('playerDropped', function()
+    picked[source] = nil
+    processing[source] = nil
 end)
