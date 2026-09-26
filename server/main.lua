@@ -17,6 +17,9 @@ local function isNearGrapes(source)
 end
 
 local function startProcessing(source, item, requirement, reward)
+    if processing[source] and GetGameTimer() > processing[source].expiresAt then
+        processing[source] = nil
+    end
     if processing[source] or not isNear(source, clientConfig.locations.vineyardProcessing.coords, 4.0) then return false end
     if exports.ox_inventory:GetItem(source, item, nil, true) < requirement then return false end
     if not exports.ox_inventory:RemoveItem(source, item, requirement) then return false end
@@ -69,6 +72,10 @@ end)
 
 RegisterNetEvent('qbx_vineyard:server:receiveGrapeJuice', function()
     finishProcessing(source, 'grapejuice', math.random(config.grapeJuiceAmount.min, config.grapeJuiceAmount.max))
+end)
+
+RegisterNetEvent('qbx_vineyard:server:cancelProcessing', function()
+    processing[source] = nil
 end)
 
 AddEventHandler('playerDropped', function()

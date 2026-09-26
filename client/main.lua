@@ -72,6 +72,7 @@ local function wineProcessing()
             }) then
                 TriggerServerEvent('qbx_vineyard:server:receiveWine')
             else
+                TriggerServerEvent('qbx_vineyard:server:cancelProcessing')
                 exports.qbx_core:Notify(locale('task.cancel_task'), 'error')
             end
         else
@@ -102,6 +103,7 @@ local function juiceProcessing()
             }) then
                 TriggerServerEvent('qbx_vineyard:server:receiveGrapeJuice')
             else
+                TriggerServerEvent('qbx_vineyard:server:cancelProcessing')
                 exports.qbx_core:Notify(locale('task.cancel_task'), 'error')
             end
         else
